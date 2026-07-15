@@ -243,7 +243,7 @@
     (println "=== ISIC-920 Test Suite ===")
     (println "")
     (doseq [[name pass?] (:results results)]
-      (println (format "[%s] %s" (if pass? "✓" "✗") name)))
+      (println (str "[" (if pass? "✓" "✗") "] " name)))
     (println "")
-    (println (format "Results: %d/%d passed" (:passed results) (:total results)))
+    (println (str "Results: " (:passed results) "/" (:total results) " passed"))
     (println (:summary results))))

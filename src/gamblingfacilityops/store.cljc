@@ -58,8 +58,8 @@
 (defn facility-verified?
   "Check if facility exists and is registered/verified."
   [store facility-id]
-  (when-let [fac (get-facility store facility-id)]
-    (and (:registered? fac) (:verified? fac))))
+  (boolean (when-let [fac (get-facility store facility-id)]
+             (and (:registered? fac) (:verified? fac)))))
 
 (defn get-referral-resource
   "Retrieve a referral resource by ID."
