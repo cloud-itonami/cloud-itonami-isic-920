@@ -37,17 +37,18 @@
   [content]
   (when content
     (let [content-str (str content)
-          content-lower (.toLowerCase content-str)]
-      ;; Check EN keywords (case-insensitive)
-      (some #(some-> content-lower (.indexOf %) (>= 0))
-            ["wager" "odds" "payout" "currency" "chip" "token"
-             "age-verify" "identity-verify" "kyc" "aml"
-             "gaming-license" "clinical" "problem-gambling" "diagnosis"])
-      ;; Check JA keywords (case-sensitive)
-      (or (some #(some-> content-str (.indexOf %) (>= 0))
-                ["ギャンブル" "賭け" "オッズ" "配当" "通貨" "チップ"
-                 "年齢確認" "身分確認" "マネロン" "ライセンス" "臨床"])
-          false))))
+          content-lower (.toLowerCase content-str)
+          ;; Check EN keywords (case-insensitive)
+          en-hit? (some #(some-> content-lower (.indexOf %) (>= 0))
+                        ["wager" "odds" "payout" "currency" "chip" "token"
+                         "age-verify" "identity-verify" "verify age" "verify patron"
+                         "verify identity" "age verif" "identity verif" "patron verif"
+                         "kyc" "aml" "gaming-license" "clinical" "problem-gambling" "diagnosis"])
+          ;; Check JA keywords (case-sensitive)
+          ja-hit? (some #(some-> content-str (.indexOf %) (>= 0))
+                        ["ギャンブル" "賭け" "オッズ" "配当" "通貨" "チップ"
+                         "年齢確認" "身分確認" "マネロン" "ライセンス" "臨床"])]
+      (boolean (or en-hit? ja-hit?)))))
 
 (defn check-facility-verified
   "HARD CHECK 1: Facility must exist and be :registered?/:verified?
