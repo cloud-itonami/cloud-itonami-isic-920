@@ -1,104 +1,11 @@
-{:blueprint/title "ISIC-920: Gambling and Betting Activities — Facility Admin & Responsible-Gambling Referral"
- :blueprint/version "1.0.0"
- :blueprint/scope "Back-office facility administration and responsible-gambling referral logistics ONLY"
- :blueprint/scope-exclusions
- {:forbidden-territory
-  ["wager-acceptance-rejection" "odds-setting" "payout-decisions"
-   "currency-handling" "chip-handling" "age-verification"
-   "identity-verification" "aml-kyc-compliance" "gaming-license-determination"
-   "clinical-determination-gambling-problem"]
-  :note "Any proposal touching these domains is rejected unconditionally by governor"}
-
- :blueprint/operations
- {:closed-allowlist
-  [{:id :schedule-facility-maintenance
-    :name "Schedule Facility Maintenance"
-    :description "Non-gaming-equipment/facility maintenance scheduling (housekeeping, HVAC, general upkeep)"
-    :scope-limit "Explicitly NOT gaming-equipment calibration/certification/inspection sign-off"
-    :effect :propose}
-
-   {:id :coordinate-responsible-gambling-referral
-    :name "Coordinate Responsible-Gambling Referral"
-    :description "Administrative logistics of connecting patron to support resources (hotline info, self-exclusion routing)"
-    :scope-limit "Explicitly NEVER a determination that someone has a gambling problem; only triggered by patron request or independently-flagged concern; purely logistical"
-    :effect :propose}
-
-   {:id :coordinate-supply-request
-    :name "Coordinate Supply Request"
-    :description "Non-gaming consumables (F&B, housekeeping, office supplies)"
-    :scope-limit "Explicitly NOT gaming chips/tokens/currency or wagering-related items"
-    :effect :propose}
-
-   {:id :schedule-staff-shift-proposal
-    :name "Schedule Staff Shift Proposal"
-    :description "Administrative shift PROPOSAL only"
-    :scope-limit "Never a dealer-certification/gaming-license/table-assignment decision; never binding"
-    :effect :propose}
-
-   {:id :flag-safety-concern
-    :name "Flag Safety Concern"
-    :description "Facility safety AND observed problem-gambling risk signals (e.g., patron distress)"
-    :scope-limit "For HUMAN follow-up; ALWAYS escalates, never auto-commits; NOT itself a clinical determination"
-    :effect :propose}]}
-
- :blueprint/governor-hard-checks
- {:check-1
-  {:name "Facility-Resource Unverified"
-   :description "Target must exist in store AND be independently :registered?/:verified?"
-   :enforcement "HARD, permanent, un-overridable"
-   :failure-mode :reject}
-
-  :check-2
-  {:name "Effect Not :propose"
-   :description "All proposals rejected if effect is not exactly :propose"
-   :enforcement "HARD, permanent, un-overridable"
-   :failure-mode :reject}
-
-  :check-3
-  {:name "Scope Exclusion"
-   :description "Any proposal touching forbidden-territory is rejected unconditionally"
-   :enforcement "HARD, permanent, un-overridable. EN+JA substring scan, qualified to not self-block legitimate referral/logistics ops"
-   :failure-mode :reject
-   :exclusion-keywords
-   ["wager" "odds" "payout" "currency" "chip" "token" "age-verify" "identity-verify"
-    "aml" "kyc" "license" "gaming-license" "clinical" "problem-gambling-determination"
-    "ギャンブル" "賭け" "オッズ" "配当" "通貨" "チップ" "年齢確認"
-    "身分確認" "マネロン" "KYC" "ゲーミングライセンス" "臨床" "問題ギャンブル判定"]}}
-
- :blueprint/phases
- {:phase-0
-  {:name "Read-Only Audit"
-   :description "Phase 0: Proposals evaluated, no commits"}
-
-  :phase-1
-  {:name "Auto-Commit with Escalation"
-   :description "Phase 1: Proposals auto-commit if governance passes; all safety concerns escalate to human"}}
-
- :blueprint/demo-scenarios
- {:scenario-1
-  {:name "Happy Path: Facility Maintenance"
-   :operation :schedule-facility-maintenance
-   :expected-outcome :commit}
-
-  :scenario-2
-  {:name "Happy Path: Supply Request"
-   :operation :coordinate-supply-request
-   :expected-outcome :commit}
-
-  :scenario-3
-  {:name "Scope Violation: Attempt to Set Odds"
-   :operation :schedule-facility-maintenance
-   :content "set odds for next week"
-   :expected-outcome :reject-scope-violation}
-
-  :scenario-4
-  {:name "Scope Violation: Attempt Age Verification"
-   :operation :coordinate-supply-request
-   :content "verify patron age"
-   :expected-outcome :reject-scope-violation}
-
-  :scenario-5
-  {:name "Safety Escalation: Flag Problem-Gambling Risk"
-   :operation :flag-safety-concern
-   :content "patron showing signs of distress"
-   :expected-outcome :escalate-human}}}
+{:itonami.blueprint/id "cloud-itonami-isic-920"
+ :itonami.blueprint/name "Gambling and Betting Activities - Facility Administration & Responsible-Gambling Referral"
+ :itonami.blueprint/isic-rev4 "920"
+ :itonami.blueprint/domain :services/gambling-facility-coordination
+ :itonami.blueprint/license "AGPL-3.0"
+ :itonami.blueprint/social-impact [:responsible-gambling-referral-support :harm-minimization :facility-safety :administrative-transparency]
+ :itonami.blueprint/governor :gamblingfacilityops-governor
+ :itonami.blueprint/robotics false
+ :itonami.blueprint/required-technologies [:identity :forms :dmn :bpmn :audit-ledger]
+ :itonami.blueprint/status :public-oss
+ :itonami.blueprint/maturity :implemented}
