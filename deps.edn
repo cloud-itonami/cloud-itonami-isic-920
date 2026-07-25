@@ -3,6 +3,16 @@
         org.clojure/clojurescript {:mvn/version "1.10.914"}
         com.github.seancorfield/next.jdbc {:mvn/version "1.3.925"}
         org.clojure/data.json {:mvn/version "2.4.0"}}
- :aliases {:test {:extra-paths ["test"]
-                  :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}}}
-           :nbb {:extra-deps {com.github.nbb/nbb {:mvn/version "1.2.196"}}}}}
+ :aliases
+ {;; :main-opts added 2026-07-25: with only :extra-paths, `clojure -M:test`
+  ;; ran nothing and there was no runner script either, so this suite was
+  ;; unreachable. run-tests.cljs runs the same suite under nbb.
+  :test {:main-opts ["-m" "gamblingfacilityops.test"]
+         :extra-paths ["test"]
+         :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}}}
+  :nbb {:extra-deps {com.github.nbb/nbb {:mvn/version "1.2.196"}}}
+  ;; No :lint alias existed at all, so nothing ever linted this repo.
+  :lint {:replace-deps {clj-kondo/clj-kondo {:mvn/version "2024.11.14"}}
+         :main-opts    ["-m" "clj-kondo.main"
+                        "--lint" "src" "test"
+                        "--fail-level" "error"]}}}
