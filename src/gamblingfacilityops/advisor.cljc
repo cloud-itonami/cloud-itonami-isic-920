@@ -1,6 +1,10 @@
 (ns gamblingfacilityops.advisor
   "Proposal advisor for gambling facility operations.
-   DETERMINISTIC DEMO ONLY: production requires real LLM with prompt injection safeguards.")
+   DETERMINISTIC DEMO ONLY: production requires real LLM with prompt injection safeguards."
+  ;; clojure.string, not JS String methods: `.includes` is a JavaScript method
+  ;; with no Java equivalent (Java uses `contains`), so this .cljc could only
+  ;; ever run under ClojureScript despite its extension.
+  (:require [clojure.string :as str]))
 
 (defn advisability
   "Return advisability score (0–1) and reasoning for a proposal.
@@ -15,9 +19,10 @@
 
         has-forbidden-words?
         (some #(and (string? content)
-                    (.toLowerCase (str content))
-                    (or (.includes (.toLowerCase (str content)) %)
-                        (.includes (str content) %)))
+                    ;; EN match is case-insensitive; the JA terms are matched
+                    ;; as-is, which lower-casing leaves unchanged anyway.
+                    (or (str/includes? (str/lower-case (str content)) %)
+                        (str/includes? (str content) %)))
               ["wager" "odds" "payout" "currency" "chip" "token"
                "age-verify" "identity" "aml" "kyc" "license"
                "ギャンブル" "賭け" "オッズ" "配当" "チップ"
@@ -58,4 +63,7 @@
    :facility-id facility-id
    :content content
    :advisor (advisability op facility-id content)
-   :timestamp (js/Date.now)})
+   ;; Was a bare (js/Date.now) in a .cljc file, so this namespace could not
+   ;; compile on the JVM at all -- the file claimed portability it did not have.
+   :timestamp #?(:clj (System/currentTimeMillis)
+                 :cljs (js/Date.now))})

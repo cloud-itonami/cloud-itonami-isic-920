@@ -246,4 +246,9 @@
       (println (str "[" (if pass? "✓" "✗") "] " name)))
     (println "")
     (println (str "Results: " (:passed results) "/" (:total results) " passed"))
-    (println (:summary results))))
+    (println (:summary results))
+    ;; Exit non-zero on failure. Without this the entry point printed
+    ;; "✗ Some tests FAILED" and still exited 0, so nothing could gate on it.
+    (when-not (= (:passed results) (:total results))
+      #?(:clj (System/exit 1)
+         :cljs (js/process.exit 1)))))
