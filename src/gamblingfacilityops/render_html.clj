@@ -615,7 +615,8 @@
              (phase0-rows rows)))
 
      (section
-      "Record retention &amp; approver attribution (measured this run)"
+      ;; `section` escapes the title, so this is a literal ampersand, not an entity.
+      "Record retention & approver attribution (measured this run)"
       (str "Measured by comparing the store registers before and after the run and by "
            "scanning both the registers and the produced records for approver-shaped keys "
            "at render time — so this section self-corrects if the store ever starts "
