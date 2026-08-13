@@ -11,6 +11,19 @@
          :extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}}}
   :nbb {:extra-deps {com.github.nbb/nbb {:mvn/version "1.2.196"}}}
+  ;; clojure -M:render-html [out-file]
+  ;;   -> regenerate docs/samples/operator-console.html by RUNNING the real
+  ;;      actor (operation -> governor -> store -> phase). Flagship checklist
+  ;;      item 2. The renderer is the only thing that needs the design system,
+  ;;      so it is scoped to this alias rather than added to :deps -- the
+  ;;      actor itself stays dependency-light and portable.
+  ;;      jp-go-digital-design-system is consumed as a git coordinate, not a
+  ;;      :local/root, so a standalone fork of this repo outside the monorepo
+  ;;      can still resolve it.
+  :render-html {:main-opts ["-m" "gamblingfacilityops.render-html"]
+                :extra-deps {io.github.kotoba-lang/jp-go-digital-design-system
+                             {:git/url "https://github.com/kotoba-lang/jp-go-digital-design-system"
+                              :git/sha "83db99546eabc53613ae826ea41d1533a3c574af"}}}
   ;; No :lint alias existed at all, so nothing ever linted this repo.
   :lint {:replace-deps {clj-kondo/clj-kondo {:mvn/version "2024.11.14"}}
          :main-opts    ["-m" "clj-kondo.main"
