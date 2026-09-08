@@ -4,7 +4,7 @@
   ;; clojure.string, not JS String methods: `.includes` is a JavaScript method
   ;; with no Java equivalent (Java uses `contains`), so this .cljc could only
   ;; ever run under ClojureScript despite its extension.
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn advisability
   "Return advisability score (0–1) and reasoning for a proposal.
@@ -21,7 +21,7 @@
         (some #(and (string? content)
                     ;; EN match is case-insensitive; the JA terms are matched
                     ;; as-is, which lower-casing leaves unchanged anyway.
-                    (or (str/includes? (str/lower-case (str content)) %)
+                    (or (str/includes? (str/lower (str content)) %)
                         (str/includes? (str content) %)))
               ["wager" "odds" "payout" "currency" "chip" "token"
                "age-verify" "identity" "aml" "kyc" "license"
