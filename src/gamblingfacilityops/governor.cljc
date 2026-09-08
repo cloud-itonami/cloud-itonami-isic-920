@@ -10,7 +10,7 @@
    NO OVERRIDES. NO EXCEPTIONS. NO ESCAPE HATCHES.
    These checks are structural language-level gates, not human-override-able rules."
   ;; clojure.string, not JS String methods -- see gamblingfacilityops.advisor.
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [gamblingfacilityops.store :as store]))
 
 ;; Forbidden keywords that trigger scope-exclusion check.
@@ -39,7 +39,7 @@
   [content]
   (when content
     (let [content-str (str content)
-          content-lower (str/lower-case content-str)
+          content-lower (str/lower content-str)
           ;; Check EN keywords (case-insensitive)
           en-hit? (some #(some-> content-lower (.indexOf %) (>= 0))
                         ["wager" "odds" "payout" "currency" "chip" "token"
