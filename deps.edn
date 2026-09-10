@@ -9,7 +9,7 @@
  :aliases
  {;; :main-opts added 2026-07-25: with only :extra-paths, `clojure -M:test`
   ;; ran nothing and there was no runner script either, so this suite was
-  ;; unreachable. run-tests.cljs runs the same suite under nbb.
+  ;; unreachable. run-tests.kotoba runs the same suite under nbb.
   :test {:main-opts ["-m" "gamblingfacilityops.test"]
          :extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}}}
