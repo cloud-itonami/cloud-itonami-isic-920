@@ -20,8 +20,8 @@ cloud-itonami-isic-920 is governed by a simple, conservative model:
 
 Releases are tagged `vX.Y.Z` and must pass:
 
-1. Full test suite (`clj -M:test -m gamblingfacilityops.test`)
-2. Demo scenarios (`clj -M -m gamblingfacilityops.sim`)
+1. Full test suite (`kbb -M:test -m gamblingfacilityops.test`)
+2. Demo scenarios (`kbb -M -m gamblingfacilityops.sim`)
 3. Review by architect
 4. Registry update (kotoba-lang/industry entry 920)
 
