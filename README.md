@@ -45,13 +45,13 @@ Real-money wagering + problem-gambling risk demands **MAXIMALLY CONSERVATIVE** d
 
 ```bash
 # Dependencies
-clj -M:deps
+kbb -M:deps
 
 # Run demo
-clj -M -m gamblingfacilityops.sim
+kbb -M -m gamblingfacilityops.sim
 
 # Run tests
-clj -M:test -m gamblingfacilityops.test
+kbb -M:test -m gamblingfacilityops.test
 ```
 
 ## Registry

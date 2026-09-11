@@ -8,7 +8,7 @@ Thank you for your interest in contributing to cloud-itonami-isic-920!
 2. Clone your fork
 3. Create a feature branch
 4. Make your changes
-5. Run tests: `clj -M:test -m gamblingfacilityops.test`
+5. Run tests: `kbb -M:test -m gamblingfacilityops.test`
 6. Commit with a clear message
 7. Push to your fork
 8. Create a pull request
@@ -36,13 +36,13 @@ If your change touches the governor logic, scope exclusion keywords, or escalati
 Run the full test suite before submitting:
 
 ```bash
-clj -M:test -m gamblingfacilityops.test
+kbb -M:test -m gamblingfacilityops.test
 ```
 
 Run the demo scenarios:
 
 ```bash
-clj -M -m gamblingfacilityops.sim
+kbb -M -m gamblingfacilityops.sim
 ```
 
 ## Reporting Issues
