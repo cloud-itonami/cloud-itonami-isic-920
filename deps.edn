@@ -25,8 +25,9 @@
   ;;      can still resolve it.
   :render-html {:main-opts ["-m" "gamblingfacilityops.render-html"]
                 :extra-deps {io.github.kotoba-lang/jp-go-digital-design-system
-                             {:git/url "https://github.com/kotoba-lang/jp-go-digital-design-system"
-                              :git/sha "83db99546eabc53613ae826ea41d1533a3c574af"}}}
+        {:git/url "https://github.com/kotoba-lang/kotoba.git"
+         :git/sha "e09192276fd6a111dfb9959bfc75ddeba555e840"
+         :deps/root "lib/kotoba.jpGoDigitalDesignSystem"}}}
   ;; No :lint alias existed at all, so nothing ever linted this repo.
   :lint {:replace-deps {clj-kondo/clj-kondo {:mvn/version "2024.11.14"}}
          :main-opts    ["-m" "clj-kondo.main"
